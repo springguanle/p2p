@@ -10,6 +10,9 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>../p2p-common</module>
+        <module>../p2p-web</module>
+        <module>../p2p-exterface</module>
+        <module>../p2p-dataservice</module>
     </modules>
 
     <properties>
@@ -37,7 +40,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!--dataservice工程依赖-->
             <!-- Spring框架依赖的JAR配置 -->
             <dependency>
                 <groupId>org.springframework</groupId>
