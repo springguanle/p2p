@@ -9,7 +9,8 @@
     <!-- 配置应用名称 -->
     <dubbo:application name="p2p-web"/>
     <!-- 配置注册中心 -->
-    <dubbo:registry protocol="zookeeper" address="192.168.196.131:2181"/>
-
+    <dubbo:registry protocol="zookeeper" address="192.168.162.136:2181"/>
+    <!--产品业务-->
+    <dubbo:reference id="loanInfoService" interface="com.bjpowernode.p2p.service.LoanInfoService" version="1.0.0" check="false"/>
 
 </beans>
