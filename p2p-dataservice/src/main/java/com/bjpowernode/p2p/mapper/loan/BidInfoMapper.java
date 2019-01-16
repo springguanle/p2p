@@ -1,6 +1,10 @@
 package com.bjpowernode.p2p.mapper.loan;
 
 import com.bjpowernode.p2p.model.loan.BidInfo;
+import com.bjpowernode.p2p.model.loan.LoanInfo;
+
+import java.util.List;
+import java.util.Map;
 
 public interface BidInfoMapper {
     /**
@@ -50,5 +54,7 @@ public interface BidInfoMapper {
      * @mbggenerated Mon Sep 17 09:12:20 CST 2018
      */
     int updateByPrimaryKey(BidInfo record);
+
+    Double selectAllBidMoney();
 
 }

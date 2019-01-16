@@ -286,4 +286,33 @@
         SELECT  cast(avg(rate) as decimal(4,2)) from b_loan_info
     </select>
 
+    <select id="queryLoanInfoListByProductType" resultMap="BaseResultMap">
+                  SELECT
+                        `id`,
+                        `product_name`,
+                        `rate`,
+                        `cycle`,
+                        `release_time`,
+                        `product_type`,
+                        `product_no`,
+                        `product_money`,
+                        `left_product_money`,
+                        `bid_min_limit`,
+                        `bid_max_limit`,
+                        `product_status`,
+                        `product_full_time`,
+                        `product_desc`,
+                        `version`
+                    FROM
+                        p2p.b_loan_info
+                    <where>
+                          <if test="productType!=null">
+                              `product_type`=#{productType}
+                          </if>
+
+                    </where>
+                      order by `release_time`
+                    limit #{currentPage},#{pageSize}
+    </select>
+
 </mapper>

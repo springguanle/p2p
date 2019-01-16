@@ -166,6 +166,9 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
+    <select id="selectAllUserCount" resultType="java.lang.Long">
+        select count(1) from u_user
+    </select>
 
 
 </mapper>

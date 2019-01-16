@@ -12,5 +12,9 @@
     <dubbo:registry protocol="zookeeper" address="192.168.162.136:2181"/>
     <!--产品业务-->
     <dubbo:reference id="loanInfoService" interface="com.bjpowernode.p2p.service.LoanInfoService" version="1.0.0" check="false"/>
+     <!--用户业务-->
+    <dubbo:reference id="userService" interface="com.bjpowernode.p2p.service.UserService" version="1.0.0" check="false"/>
+    <!--投资业务-->
+    <dubbo:reference id="bidInfoService" interface="com.bjpowernode.p2p.service.BidInfoService" version="1.0.0" check="false"/>
 
 </beans>
