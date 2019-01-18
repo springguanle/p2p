@@ -169,6 +169,11 @@
     <select id="selectAllUserCount" resultType="java.lang.Long">
         select count(1) from u_user
     </select>
-
+    <!--根据手机号码查询用户-->
+    <select id="queryUserByPhone" resultMap="BaseResultMap">
+        select *
+        from u_user
+        where phone=#{phone}
+    </select>
 
 </mapper>

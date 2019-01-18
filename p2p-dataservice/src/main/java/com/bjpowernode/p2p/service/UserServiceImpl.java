@@ -2,6 +2,7 @@ package com.bjpowernode.p2p.service;
 
 import com.bjpowernode.p2p.constant.Constants;
 import com.bjpowernode.p2p.mapper.user.UserMapper;
+import com.bjpowernode.p2p.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -41,5 +42,13 @@ public class UserServiceImpl implements  UserService {
             ops.set(allUserCount,15, TimeUnit.SECONDS);
         }
         return (Long) allUserCount;
+    }
+
+    /*
+    * 校验用户是否存在，根据手机号码是否存在
+    * */
+    @Override
+    public User queryUserByPhone(String phone) {
+        return userMapper.queryUserByPhone(phone);
     }
 }

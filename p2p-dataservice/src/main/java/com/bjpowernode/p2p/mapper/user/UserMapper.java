@@ -52,5 +52,9 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     Long selectAllUserCount();
+    /*
+    * 根据手机号码查询用户
+    * */
+    User queryUserByPhone(String phone);
 
 }

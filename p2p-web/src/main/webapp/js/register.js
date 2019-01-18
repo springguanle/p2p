@@ -1,6 +1,4 @@
 
-
-
 //错误提示
 function showError(id,msg) {
 	$("#"+id+"Ok").hide();
@@ -46,3 +44,127 @@ function closeBox(maskid,bosid){
 	$("#"+maskid).hide();
 	$("#"+bosid).hide();
 }
+//验证登录密码
+function checkLoginPassword() {
+    //获取用户输入的登录密码
+    var loginPassword = $.trim($("#loginPassword").val());
+    var replayLoginPassowrd = $.trim($("#replayLoginPassword").val());
+
+    if ("" == loginPassword) {
+        showError("loginPassword","请输入登录密码");
+        return false;
+    } else if(!/^[0-9a-zA-Z]+$/.test("loginPassword")) {
+        showError("loginPassword","密码只支持数字和大小写英文字母");
+        return false;
+    } else if(!/^(([a-zA-Z]+[0-9]+)|([0-9]+[a-zA-Z]+))[a-zA-Z0-9]*/.test(loginPassword)) {
+        showError("loginPassword","密码应同时包含英文和数字");
+        return false;
+    } else if(loginPassword.length < 6 || loginPassword.length > 20) {
+        showError("loginPassword","密码长度应为6-20位");
+        return false;
+    } else {
+        showSuccess("loginPassword");
+    }
+
+    //友好提示用户不要忘记输入再次登录密码
+    if (replayLoginPassowrd != loginPassword) {
+        showError("replayLoginPassword","两次密码输入不一致");
+    }
+
+    return true;
+}
+
+//验证确认登录密码
+function checkLoginPasswordEqu() {
+    //获取用户输入登录密码
+    var loginPassword = $.trim($("#loginPassword").val());
+    var replayLoginPassword = $.trim($("#replayLoginPassword").val());
+
+    if ("" == loginPassword) {
+        showError("loginPassword","请输入登录密码");
+        return false;
+    } else if("" == replayLoginPassword) {
+        showError("replayLoginPassword","请输入确认登录密码");
+        return false;
+    } else if(replayLoginPassword != loginPassword) {
+        showError("replayLoginPassword","两次输入密码不一致");
+        return false;
+    } else {
+        showSuccess("replayLoginPassword");
+    }
+
+    return true;
+}
+//验证手机号是否存在
+function checkPhone() {
+	var phone=$.trim($("#phone").val());
+	var flag=false;
+	if(""==phone){
+		showError("phone","请输入手机号码");
+		return false;
+	}else if(!/^1[1-9]\d{9}$/.test(phone)){
+		showError("phone","请输入正确的手机号码");
+		return false;
+	}else{
+		$.ajax({
+			url:"/loan/checkPhone",
+			type:"post",
+			data:"phone="+phone,
+			dataType:"json",
+			async:false,//不使用异步
+			success:function(jsonData){
+                if(jsonData.errorMessage == "OK"){
+					showSuccess("phone")
+					flag=true;
+				}else{
+					showError("phone",jsonData.errorMessage);
+					flag=flag;
+				}
+
+			},
+			error:function () {
+				showError("phone","系统繁忙,请稍等再试..")
+            	flag=false;
+			}
+			});
+	}
+	if(!flag){
+		return false;
+	}
+	return true;
+}
+//验证验证码是否正确
+function  checkCaptcha() {
+	var captcha=$.trim($("#captcha").val());
+	var flag=false;
+	if(""==captcha){
+		showError("captcha","请输入验证码");
+	}else{
+		$.ajax({
+			url:"/loan/checkCaptcha",
+			type:"post",
+			data:"captcha="+captcha,
+			dataType:"json",
+			success:function (jsonObject) {
+				if(jsonObject.errorMessage=="OK"){
+					showSuccess("captcha");
+					flag=true;
+				}else {
+					showError("captcha",jsonObject.errorMessage);
+					flag=false;
+				}
+            },
+			error:function () {
+                showError("captcha", "系统繁忙，请稍后重试...");
+                flag = false;
+            }
+		});
+	}
+    if (!flag){
+        return false;
+    }
+
+    return true;
+}
+
+

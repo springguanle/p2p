@@ -167,8 +167,41 @@
 <!--页脚start-->
 <jsp:include page="commons/footer.jsp"/>
 <!--页脚end-->
-
-<script type="text/javascript">
+<script src="/js/bignumber.js"></script>
+<script type="application/javascript" src="/js/register.js"></script>
+ <script type="text/javascript">
+    function  checkMoney() {
+        //获取用户输入的投资金额
+        var bidMoney=$.trim($("#bidMoney").val());//用户输入的投资金额
+        var productType="${loanInfo.productType}";//产品类型
+        var cycle=${loanInfo.cycle};//产品周期
+        var rate=${loanInfo.rate};//产品利率
+        if(""==bidMoney){
+            $(".max-invest-money").html("请输入投资金额");
+        }else if(isNaN(bidMoney)){
+            $(".max-invest-money").html("投资金额必须为数字");
+        }else if(bidMoney <= 0){
+            $(".max-invest-money").html("投资金额必须是大于0的数字");
+        }else if(bidMoney%100!=0){
+            $(".max-invest-money").html("投资金额必须是100的整数倍");
+            return false;
+        }else {
+            $(".max-invest-money").html("");
+            var incomeMoney="";
+            bidMoney=new BigNumber(bidMoney);
+            if(0==productType){
+                //新手宝的单位是天
+                incomeMoney=bidMoney.multpliedBy(rate).dividedBy(36500).multipliedBy(cycle).decimalPlaces(2);
+            }else{
+                //散标和优选，单位是月
+                incomeMoney = bidMoney.multipliedBy(rate).dividedBy(36500).multipliedBy(cycle).multipliedBy(30).decimalPlaces(2);
+            }
+            $("#shouyi").html(incomeMoney+"");
+        }
+        return true;
+    }
+    
+    
 function closeit() {
 	$("#failurePayment").hide();
 	$("#dialog-overlay1").hide();

@@ -44,7 +44,7 @@ $(function(){
         </ul>
         <div class="login-right">
             	<!-- 未登录start -->
-            	<div class="no-login"><a href="register.jsp" class="btn-reg">注册</a><a href="login.jsp" class="btn-login">登录</a></div>
+            	<div class="no-login"><a href="/loan/registerUI" class="btn-reg">注册</a><a href="login.jsp" class="btn-login">登录</a></div>
             	<!-- 未登录end -->
             	
                 <!--登录后begin-->
