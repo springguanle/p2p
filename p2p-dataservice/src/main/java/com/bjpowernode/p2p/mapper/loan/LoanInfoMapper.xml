@@ -314,5 +314,13 @@
                       order by `release_time`
                     limit #{currentPage},#{pageSize}
     </select>
+    <select id="selectTotal" resultType="java.lang.Long">
+        select count(1) from p2p.b_loan_info
+        <where>
+            <if test="productType!=null">
+                `product_type`=#{productType}
+            </if>
+        </where>
+    </select>
 
 </mapper>

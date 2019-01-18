@@ -2,6 +2,7 @@ package com.bjpowernode.p2p.mapper.loan;
 
 import com.bjpowernode.p2p.model.loan.LoanInfo;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,4 +69,9 @@ public interface LoanInfoMapper {
      *查询首页产品
      * */
     List<LoanInfo> queryLoanInfoListByProductType(Map<String,Object> paramap);
+
+    //查询数据总量
+    Long selectTotal(HashMap<String,Object> paramMap);
+
+
 }

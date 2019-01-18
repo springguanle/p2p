@@ -69,8 +69,8 @@
 				上一页
 			</c:when>
 			<c:otherwise>
-				<a id="lnkNext" href="${pageContext.request.contextPath}/loan/loan">首页</a>
-				<a id="lnkNext" href="${pageContext.request.contextPath}/loan/loan?currentPage=${currentPage-1}">上一页</a>
+				<a id="lnkNext" href="${pageContext.request.contextPath}/loan/loan?&ptype=${productType}">首页</a>
+				<a id="lnkNext" href="${pageContext.request.contextPath}/loan/loan?currentPage=${currentPage-1}&ptype=${productType}">上一页</a>
 			</c:otherwise>
 			</c:choose>
 			
@@ -80,8 +80,8 @@
 				尾页
 			</c:when>
 			<c:otherwise>
-				<a id="lnkNext" href="${pageContext.request.contextPath}/loan/loan?currentPage=${currentPage+1}">下一页 </a>
-				<a id="lnkNext" href="${pageContext.request.contextPath}/loan/loan?currentPage=${totalPage}">尾页</a>
+				<a id="lnkNext" href="${pageContext.request.contextPath}/loan/loan?currentPage=${currentPage+1}&ptype=${productType}">下一页 </a>
+				<a id="lnkNext" href="${pageContext.request.contextPath}/loan/loan?currentPage=${totalPage}&ptype=${productType}">尾页</a>
 			</c:otherwise>
 			</c:choose>
 			</td>

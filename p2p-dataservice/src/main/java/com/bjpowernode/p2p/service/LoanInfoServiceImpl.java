@@ -3,11 +3,13 @@ package com.bjpowernode.p2p.service;
 import com.bjpowernode.p2p.constant.Constants;
 import com.bjpowernode.p2p.mapper.loan.LoanInfoMapper;
 import com.bjpowernode.p2p.model.loan.LoanInfo;
+import com.bjpowernode.p2p.model.vo.PaginatinoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,5 +47,25 @@ public class LoanInfoServiceImpl implements LoanInfoService {
     @Override
     public List<LoanInfo> queryLoanInfoListByProductType(Map<String, Object> paramap) {
         return loanInfoMapper.queryLoanInfoListByProductType(paramap);
+    }
+
+    @Override
+    public PaginatinoVO<LoanInfo> queryLoanInfoByPage(HashMap<String, Object> paramMap) {
+        PaginatinoVO<LoanInfo> paginatinoVO=new PaginatinoVO<>();
+
+        //查询总数据量
+        Long total=loanInfoMapper.selectTotal(paramMap);
+        paginatinoVO.setTotal(total);
+
+        List<LoanInfo> loanInfoList=loanInfoMapper.queryLoanInfoListByProductType(paramMap);
+
+        paginatinoVO.setDataList(loanInfoList);
+
+        return paginatinoVO;
+    }
+
+    @Override
+    public LoanInfo queryLoanInfoById(Integer id) {
+      return   loanInfoMapper.selectByPrimaryKey(id);
     }
 }

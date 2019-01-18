@@ -148,5 +148,28 @@
     <select id="selectAllBidMoney" resultType="java.lang.Double">
         SELECT  sum(bid_money) from b_bid_info
     </select>
+    <resultMap id="bidUserMap" type="com.bjpowernode.p2p.model.loan.BidInfo">
+        <id column="aid" property="id"/>
+        <result column="bid_money" property="bidMoney"/>
+        <result column="bid_time" property="bidTime"/>
+        <association column="bid" property="id" javaType="com.bjpowernode.p2p.model.user.User">
+            <id column="bid" property="id"/>
+            <result column="phone" property="phone"/>
+        </association>
+    </resultMap>
+    <select id="queryBidByLoanId" resultMap="bidUserMap">
+        select 
+            a.id aid,
+            a.bid_money,
+            a.bid_time,
+            b.phone,
+            b.id bid
+        
+        from b_bid_info  a
+        
+        left join u_user b on a.uid=b.id
+        
+        where a.loan_id=#{id}
+    </select>
 
 </mapper>

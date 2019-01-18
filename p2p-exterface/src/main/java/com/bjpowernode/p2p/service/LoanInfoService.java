@@ -1,7 +1,9 @@
 package com.bjpowernode.p2p.service;
 
 import com.bjpowernode.p2p.model.loan.LoanInfo;
+import com.bjpowernode.p2p.model.vo.PaginatinoVO;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,4 +18,7 @@ public interface LoanInfoService {
     //查询产品列表
     List<LoanInfo> queryLoanInfoListByProductType(Map<String,Object> paramap);
 
+    PaginatinoVO<LoanInfo>  queryLoanInfoByPage(HashMap<String,Object> paramMap);
+
+    LoanInfo queryLoanInfoById(Integer id);
 }

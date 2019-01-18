@@ -8,11 +8,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>动力金融网-CFCA认证的互联网金融公司</title>
-<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="js/trafficStatistics.js"></script>
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<link rel="stylesheet" type="text/css" href="css/share.css" />
-<link rel="stylesheet" type="text/css" href="css/main.css" />
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/trafficStatistics.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/css/share.css" />
+<link rel="stylesheet" type="text/css" href="/css/main.css" />
 
 </head>
 
@@ -32,20 +32,20 @@
       <!-- 产品详情start -->
       <div class="pro-info-details">
         <div class="pro-name">
-          <h2><span>季度宝</span>(20170726期期)</h2>
+          <h2><span>${loanInfo.productName}</span>(${loanInfo.productNo}期期)</h2>
         </div>
         <div class="pro-info">
           <ul class="clearfix">
             <li class="info-1">
               <p>历史年化利率</p>
-              <h3>4.9<span>%</span></h3>
+              <h3>${loanInfo.rate}<span>%</span></h3>
               <div class="info-bt">
               <span>本产品采用普通利率</span>
               </div>
             </li>
             <li class="info-2">
               <p>募集金额(元)</p>
-              <h3>500000.0</h3>
+              <h3>${loanInfo.productMoney}</h3>
               <div class="info-bt">
               	<span>
               		<!-- 只有状态为0时为募集，其它都为已满标 -->
@@ -57,7 +57,15 @@
             <li class="info-3">
               <p>投资周期</p>
               <!-- 只有新手宝产品周期为天 -->
-              <h3>6<span>个月</span></h3>
+                <c:choose>
+                    <c:when test="${loanInfo.productType eq 0}">
+                        <h3>6<span>${loanInfo.cycle}天</span></h3>
+                    </c:when>
+                    <c:otherwise>
+                        <h3>6<span>${loanInfo.cycle}个月</span></h3>
+                    </c:otherwise>
+                </c:choose>
+
               <div class="info-bt"><span></span></div>
             </li>
           </ul>
@@ -81,30 +89,25 @@
 		<dt>
 			<span class="record-num">序号</span><span class="invest-user">投资人</span><span class="invest-money">投资金额(元)</span><span class="invest-time">投资时间</span>
 		</dt>
-		
-			<!-- 如果投资记录为空，显示以下文字 -->
-			<dd style="text-align:center;">该产品暂时还没有人投资，赶快去投资吧~</dd>
-			
+            <c:choose>
+                <c:when test="${empty bidInfo}">
+                    <!-- 如果投资记录为空，显示以下文字 -->
+                    <dd style="text-align:center;">该产品暂时还没有人投资，赶快去投资吧~</dd>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach items="${bidInfo}" varStatus="index" var="bidInfoList">
+                        <dd>
+                            <span class="record-num">${index.count}</span>
+                            <span class="invest-user">${fn:substring(bidInfoList.user.phone,0,3 )}******${fn:substring(bidInfoList.user.phone,9,11)}</span>
+                            <span class="invest-money">${bidInfoList.bidMoney}</span>
+                            <span class="invest-time"><fmt:formatDate value="${bidInfoList.bidStatus}" pattern="yyyy-MM-dd HH:mm:ss" /></span>
+                        </dd>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
+
+
 		<!-- 如果有投资记录，循环遍历显示 -->
-		<dd>
-			<span class="record-num">1</span>
-			<span class="invest-user">137******89</span> 
-			<span class="invest-money">1000.0</span>
-			<span class="invest-time">2017-09-12 13:34:22</span>
-		</dd>
-		<dd>
-			<span class="record-num">2</span>
-			<span class="invest-user">130******12</span> 
-			<span class="invest-money">1000.0</span>
-			<span class="invest-time">2017-07-12 17:34:22</span>
-		</dd>
-		<dd>
-			<span class="record-num">3</span>
-			<span class="invest-user">137******33</span> 
-			<span class="invest-money">1000.0</span>
-			<span class="invest-time">2017-06-12 10:34:22</span>
-		</dd>
-		</dl>
 		</div>
       </div>
       <!-- 投资记录end -->

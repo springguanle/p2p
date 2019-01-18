@@ -38,7 +38,7 @@ public class UserServiceImpl implements  UserService {
         if(allUserCount==null){
             allUserCount=userMapper.selectAllUserCount();
             //设置失效时间
-            ops.set(Constants.ALL_USER_COUNT,15, TimeUnit.SECONDS);
+            ops.set(allUserCount,15, TimeUnit.SECONDS);
         }
         return (Long) allUserCount;
     }
