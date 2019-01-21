@@ -113,8 +113,7 @@ public class UserServiceImpl implements  UserService {
 
     @Override
     public int updateUserById(User user) {
-        int i = userMapper.updateByPrimaryKey(user);
-
+        int i = userMapper.updateByPrimaryKeySelective(user);
         return i;
     }
 }

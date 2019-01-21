@@ -13,6 +13,7 @@
         <module>../p2p-web</module>
         <module>../p2p-exterface</module>
         <module>../p2p-dataservice</module>
+        <module>../p2p-pay</module>
     </modules>
 
     <properties>

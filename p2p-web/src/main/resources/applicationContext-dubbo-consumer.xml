@@ -19,4 +19,8 @@
 
     <dubbo:reference id="financeService" interface="com.bjpowernode.p2p.service.FinanceService" version="1.0.0" check="false"/>
 
+    <dubbo:reference id="onlyNumberService" interface="com.bjpowernode.p2p.service.OnlyNumberService" version="1.0.0" check="false"/>
+
+    <dubbo:reference id="rechargeRecordService" interface="com.bjpowernode.p2p.service.RechargeRecordService" version="1.0.0" check="false"/>
+
 </beans>

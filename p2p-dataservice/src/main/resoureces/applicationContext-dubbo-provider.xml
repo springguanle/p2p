@@ -20,5 +20,9 @@
 
     <dubbo:service interface="com.bjpowernode.p2p.service.FinanceService" ref="financeServiceImpl" version="1.0.0" timeout="1500"/>
 
+    <dubbo:service interface="com.bjpowernode.p2p.service.OnlyNumberService" ref="onlyNumberServiceImpl" version="1.0.0" timeout="1500"/>
+
+    <dubbo:service interface="com.bjpowernode.p2p.service.RechargeRecordService" ref="rechargeRecordServiceImpl" version="1.0.0" timeout="1500"/>
+
 
 </beans>

@@ -1,5 +1,5 @@
 //验证真实名字格式
-function userRealName(flag) {
+function userRealName() {
 	var realName = $.trim($("#realName").val());
 	var rtn = false;
 	if (null==realName || realName=="") {
@@ -20,36 +20,31 @@ function userRealName(flag) {
 
 //身份证号码验证
 function idCardCheck() {
-	var rtn = false;
-	
-	var idCard = $.trim($("#idCard").val());
-	var replayIdCard = $.trim($("#replayIdCard").val());
-	
-	if (idCard=="") {
-		showError('idCard','请输入身份证号码');
-		return false;
-	}
-	//身份证号码为15位或18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
-	var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-	if (!(reg.test(idCard))) {
-		showError('idCard','请输入正确的身份证号码');
-		return false;
-	} else if (idCard.length < 15 || idCard.length > 18 || idCard.length == 17) {
-		showError('idCard','身份证号码应为15或18位');
-		return false;
-	} else {
+    var rtn = false;
 
-		//请求服务器资源
-	}
-	
-	if (replayIdCard != null && replayIdCard != null && idCard == replayIdCard) {
-		showSuccess('replayIdCard');
-	}
-	
-	if(!rtn){
-		return false;
-	}
-	return true;
+    var idCard = $.trim($("#idCard").val());
+    var replayIdCard = $.trim($("#replayIdCard").val());
+
+    if (idCard=="") {
+        showError('idCard','请输入身份证号码');
+        return false;
+    }
+    //身份证号码为15位或18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
+    var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    if (!(reg.test(idCard))) {
+        showError('idCard','请输入正确的身份证号码');
+        return false;
+    } else if (idCard.length < 15 || idCard.length > 18 || idCard.length == 17) {
+        showError('idCard','身份证号码应为15或18位');
+        return false;
+    } else {
+        showSuccess("idCard");
+        rtn = true;
+    }
+    if(!rtn){
+        return false;
+    }
+    return true;
 }
 
 //两次密码是否相等验证
@@ -148,8 +143,8 @@ function verifyRealName() {
         $.ajax({
             url:"loan/verifyRealName",
             type:"post",
-            dataType:"json",
             data:{"idCard":idCard,"realName":realName},
+            dataType:"json",
             success:function (jsonObject) {
                 console.log(jsonObject.errorMessage);
                 if (jsonObject.errorMessage == "OK"){

@@ -38,17 +38,24 @@
                     <h3 class="name">
                    
                    		<%-- <a href="${pageContext.request.contextPath}/realName.jsp">请认证姓名</a> --%>
-			        	张三
+			        	<c:choose>
+                            <c:when test="${empty user.name}">
+                                <a href="${pageContext.request.contextPath}/realName.jsp">请实名认证</a>
+                            </c:when>
+                            <c:otherwise>
+                                ${user.name}
+                            </c:otherwise>
+                        </c:choose>
                     </h3>
                     <h4></h4>
-                    <h4>13725698888</h4>
-                    <h4>最近登录：2017-05-21 15:23:36</h4>
+                    <h4>${user.phone}</h4>
+                    <h4>最近登录:<fmt:formatDate value="${user.lastLoginTime}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></h4>
                 </div>
                 <i class="borderRight"></i>
                  <ul class="credenBalance">
                   <li class="availMoney">
 	                  <h3>可用余额：</h3>
-	                  <span class="moneyIcon"><i>¥ 9000.0 元</i></span>
+	                  <span class="moneyIcon"><i>¥ ${financeAccount.availableMoney} 元</i></span>
 	                  <a class="recharge" href="${pageContext.request.contextPath}/toRecharge.jsp">充值</a>
 	                  <a class="inves" href="${pageContext.request.contextPath}/loan/loan">投资</a>
                   </li>

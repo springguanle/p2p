@@ -65,7 +65,7 @@
                 </span>
             </div>
             <div class="bn-login">
-              <button class="fail" id="btnRegist" disabled onclick="javascript:verifyRealName();">认&nbsp;&nbsp;证</button>
+              <button class="fail" id="btnRegist" disabled onclick="verifyRealName();">认&nbsp;&nbsp;证</button>
             </div>
           </div>
         </div>

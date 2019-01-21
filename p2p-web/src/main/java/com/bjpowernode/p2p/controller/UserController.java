@@ -3,20 +3,26 @@ package com.bjpowernode.p2p.controller;
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.bjpowernode.p2p.constant.Constants;
+import com.bjpowernode.p2p.model.loan.RechargeRecord;
 import com.bjpowernode.p2p.model.user.FinanceAccount;
 import com.bjpowernode.p2p.model.user.User;
 import com.bjpowernode.p2p.model.vo.ResultObject;
 import com.bjpowernode.p2p.service.FinanceService;
+import com.bjpowernode.p2p.service.OnlyNumberService;
+import com.bjpowernode.p2p.service.RechargeRecordService;
 import com.bjpowernode.p2p.service.UserService;
+import com.bjpowernode.p2p.util.DateUtils;
 import com.bjpowernode.p2p.util.HttpClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -25,6 +31,9 @@ import java.util.HashMap;
  */
 @Controller
 public class UserController {
+    @Autowired
+    private RechargeRecordService rechargeRecordService;
+
     @Autowired
     private UserService  userService;
 
@@ -36,6 +45,9 @@ public class UserController {
 
     @Autowired
     private FinanceService financeService;
+
+    @Autowired
+    private OnlyNumberService onlyNumberService;
 
     /*
     * 注册页面的跳转
@@ -119,7 +131,7 @@ public class UserController {
         paramMap.put("appkey",realNameAppkey);
 
         //真实姓名
-        paramMap.put("realName", realName);
+        paramMap.put("name", realName);
         //身份证号
         paramMap.put("certNo", idCard);
 
@@ -134,8 +146,7 @@ public class UserController {
         //判断通信是否成功
         if (StringUtils.equals("10000", code)) {
             //通信成功
-            Boolean isok = jsonObject.getJSONObject("result").getJSONObject("result").getBoolean("isok");
-
+            Boolean isok = jsonObject.getJSONObject("result").getBoolean("success");
             //判断结果
             if (isok){
                 //用户输入了正确的姓名和身份证号
@@ -204,5 +215,33 @@ public class UserController {
 
     }
 
+    /*
+    * 我的小金库
+    * */
+    @RequestMapping("/loan/myCenter")
+    public String myCenter(){
+        return "myCenter";
+    }
 
+    @RequestMapping("/loan/toRecharge")
+    public String toAlipRecharge(Model model, HttpSession session, @RequestParam(value = "rechargeMoney",required = true) Double rechargeMoney){
+        User sessionUser=(User)session.getAttribute(Constants.SESSION_USER);
+        String  rechargeNumber=DateUtils.getTimeStamp()+onlyNumberService.getOnlyNumber();
+
+        RechargeRecord rechargeRecord = new RechargeRecord();
+
+        rechargeRecord.setUid(sessionUser.getId());
+        rechargeRecord.setRechargeNo(rechargeNumber);
+        rechargeRecord.setRechargeDesc("支付宝");
+        rechargeRecord.setRechargeMoney(rechargeMoney);
+        rechargeRecord.setRechargeStatus("0");
+        rechargeRecord.setRechargeTime(new Date());
+        int rechargeCount=rechargeRecordService.addRechargeRecord(rechargeRecord);
+        if(rechargeCount>0){
+
+        }else{
+            model.addAttribute("trade_msg","充值人数过多，稍后再试");
+        }
+        return "toRchargeBack";
+    }
 }
