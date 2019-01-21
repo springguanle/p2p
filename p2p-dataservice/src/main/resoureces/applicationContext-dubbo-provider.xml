@@ -17,4 +17,8 @@
     <dubbo:service interface="com.bjpowernode.p2p.service.UserService" ref="userServiceImpl" version="1.0.0" timeout="1500"/>
     <!--投资业务-->
     <dubbo:service interface="com.bjpowernode.p2p.service.BidInfoService" ref="bidInfoServiceImpl" version="1.0.0" timeout="1500"/>
+
+    <dubbo:service interface="com.bjpowernode.p2p.service.FinanceService" ref="financeServiceImpl" version="1.0.0" timeout="1500"/>
+
+
 </beans>

@@ -109,6 +109,9 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
+    <select id="selectFinanceByUserId" resultMap="BaseResultMap">
+        SELECT  * FROM  u_finance_account where uid=#{uid}
+    </select>
 
 
 

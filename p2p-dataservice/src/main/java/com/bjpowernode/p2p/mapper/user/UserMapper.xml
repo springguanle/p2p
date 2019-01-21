@@ -175,5 +175,8 @@
         from u_user
         where phone=#{phone}
     </select>
-
+    <!--用户登录-->
+    <select id="queryUserByPhoneAndPassword" resultMap="BaseResultMap">
+        select * FROM u_user where phone=#{0} and login_password=#{1}
+    </select>
 </mapper>

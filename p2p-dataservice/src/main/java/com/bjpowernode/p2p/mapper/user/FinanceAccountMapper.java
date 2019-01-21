@@ -51,4 +51,5 @@ public interface FinanceAccountMapper {
      */
     int updateByPrimaryKey(FinanceAccount record);
 
+    FinanceAccount selectFinanceByUserId(int uid);
 }

@@ -1,4 +1,3 @@
-
 //错误提示
 function showError(id,msg) {
 	$("#"+id+"Ok").hide();
@@ -44,6 +43,51 @@ function closeBox(maskid,bosid){
 	$("#"+maskid).hide();
 	$("#"+bosid).hide();
 }
+
+
+
+//验证手机号
+function checkPhone() {
+    //获取用户的手机号
+    var phone = $.trim($("#phone").val());
+    var flag = false;
+    if ("" == phone) {
+        showError("phone","请输入手机号码");
+        return false;
+    } else if(!/^1[1-9]\d{9}$/.test(phone)) {
+        showError("phone","请输入正确的手机号码");
+        return false;
+    } else{
+        //向服务器端发送ajax请求校验手机号码是否存在
+        $.ajax({
+            url:"loan/checkPhone",
+            type:"post",
+            data:"phone=" + phone,
+            dataType:"json",
+            async:false,//不使用异步
+            success:function (jsonObject) {
+                if(jsonObject.errorMessage == "OK"){
+                    showSuccess("phone");
+                    flag = true;
+                }else {
+                    showError("phone",jsonObject.errorMessage);
+                    flag = false;
+                }
+            },
+            error:function () {
+                showError("phone","系统繁忙，请稍后再试...");
+                flag = false;
+            }
+        });
+    }
+
+    if (!flag){
+        return false;
+    }
+
+    return true;
+}
+
 //验证登录密码
 function checkLoginPassword() {
     //获取用户输入的登录密码
@@ -94,77 +138,80 @@ function checkLoginPasswordEqu() {
     }
 
     return true;
-}
-//验证手机号是否存在
-function checkPhone() {
-	var phone=$.trim($("#phone").val());
-	var flag=false;
-	if(""==phone){
-		showError("phone","请输入手机号码");
-		return false;
-	}else if(!/^1[1-9]\d{9}$/.test(phone)){
-		showError("phone","请输入正确的手机号码");
-		return false;
-	}else{
-		$.ajax({
-			url:"/loan/checkPhone",
-			type:"post",
-			data:"phone="+phone,
-			dataType:"json",
-			async:false,//不使用异步
-			success:function(jsonData){
-                if(jsonData.errorMessage == "OK"){
-					showSuccess("phone")
-					flag=true;
-				}else{
-					showError("phone",jsonData.errorMessage);
-					flag=flag;
-				}
 
-			},
-			error:function () {
-				showError("phone","系统繁忙,请稍等再试..")
-            	flag=false;
-			}
-			});
-	}
-	if(!flag){
-		return false;
-	}
-	return true;
 }
-//验证验证码是否正确
-function  checkCaptcha() {
-	var captcha=$.trim($("#captcha").val());
-	var flag=false;
-	if(""==captcha){
-		showError("captcha","请输入验证码");
-	}else{
-		$.ajax({
-			url:"/loan/checkCaptcha",
-			type:"post",
-			data:"captcha="+captcha,
-			dataType:"json",
-			success:function (jsonObject) {
-				if(jsonObject.errorMessage=="OK"){
-					showSuccess("captcha");
-					flag=true;
-				}else {
-					showError("captcha",jsonObject.errorMessage);
-					flag=false;
-				}
+
+
+//校验验证码
+function checkCaptcha() {
+    //获取用户输入的验证码
+    var captcha = $.trim($("#captcha").val());
+    var flag = false;
+
+    if ("" == captcha){
+        showError("captcha", "请输入验证码");
+    }else{
+        $.ajax({
+            url:"loan/checkCaptcha",
+            type:"post",
+            data:"captcha=" + captcha,
+            async:false,
+            dataType:"json",
+            success:function (jsonObject) {
+                if (jsonObject.errorMessage == "OK") {
+                    showSuccess("captcha");
+                    flag = true;
+                }else {
+                    showError("captcha", jsonObject.errorMessage);
+                    flag = false;
+                }
             },
-			error:function () {
+            error:function () {
                 showError("captcha", "系统繁忙，请稍后重试...");
                 flag = false;
             }
-		});
-	}
+        });
+    }
+
     if (!flag){
         return false;
     }
 
     return true;
+
 }
 
 
+//注册
+function register() {
+
+    //获取注册参数
+    var phone = $.trim($("#phone").val());
+    var password = $.trim($("#loginPassword").val());
+
+    if (checkCaptcha() && checkLoginPasswordEqu() && checkLoginPassword() && checkPhone()){
+        //使用md5工具对用户输入的密码进行加密处理
+        $("#loginPassword").val($.md5(password));
+        $("#replayLoginPassword").val($.md5(password));
+
+        $.ajax({
+            url:"loan/register",
+            type:"post",
+            data:{"phone":phone,"password":$("#loginPassword").val()},
+            dataType:"json",
+            success:function (jsonObject) {
+                if (jsonObject.errorMessage == "OK"){
+                    console.log(123);
+                    //跳转到实名认证页面
+                    window.location.href = "realName.jsp";
+                }else {
+                    showError("captcha",jsonObject.errorMessage);
+                }
+            },
+            error:function () {
+                showError("captcha", "系统繁忙，请稍后重试...");
+            }
+        });
+    }
+
+}

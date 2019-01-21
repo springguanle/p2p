@@ -21,6 +21,8 @@
             http://www.springframework.org/schema/util
             http://www.springframework.org/schema/util/spring-util.xsd">
 
+    <!-- 属性文件的加载 -->
+    <context:property-placeholder location="classpath:config.properties"/>
     <!--解决返回json数据乱码问题-->
     <bean id="stringHttpMessageConverter"
           class="org.springframework.http.converter.StringHttpMessageConverter">

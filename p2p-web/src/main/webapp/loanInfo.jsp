@@ -125,13 +125,18 @@
           <dl class="usable">
             <dt>我的账户可用</dt>
             <dd>资金(元)：
-            
-	            	<!-- 判断用户是否登录：未登录，显示登录连接 -->
-	            	<span style="font-size:18px;color:#ff6161;vertical-align:bottom;"><a href="${pageContext.request.contextPath}/login.jsp">请登录</a></span>
-	        
-	            	<!-- 判断用户是否登录：已登录，显示可用余额 -->
-	           		<%-- <span style="font-size:18px;color:#ff6161;vertical-align:bottom;">${financeAccount.availableMoney}</span> --%>
-	        
+                    <c:choose>
+                        <c:when test="${empty user}">
+                            <!-- 判断用户是否登录：未登录，显示登录连接 -->
+                            <span style="font-size:18px;color:#ff6161;vertical-align:bottom;"><a href="${pageContext.request.contextPath}/login.jsp">请登录</a></span>
+
+                        </c:when>
+                        <c:otherwise>
+                            <!-- 判断用户是否登录：已登录，显示可用余额 -->
+                            <span style="font-size:18px;color:#ff6161;vertical-align:bottom;">${financeAccount.availableMoney}</span>
+                        </c:otherwise>
+                    </c:choose>
+
             </dd>
           </dl>
           <div class="expect-box">

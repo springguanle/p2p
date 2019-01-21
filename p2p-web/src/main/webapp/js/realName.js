@@ -77,39 +77,44 @@ function idCardEequ() {
 	return true;
 }
 
-//验证码验证
+//校验验证码
 function checkCaptcha() {
-	var rtn = false;
-	var captcha = $.trim($("#captcha").val());
-	if (captcha == "") {
-		showError('captcha','请输入图形验证码');
-		return false;
-	} else {
-		$.ajax({
-			type:"POST",
-			url:"loan/checkCaptcha",
-			async: false,
-			data:"captcha="+captcha,
-			success: function(retMap) {
-			    if (retMap.errorCode) {
-			    	showSuccess('captcha');
-			    	rtn = true;
-			    } else {
-			    	showError('captcha', retMap.errorMessage);
-			    	rtn = false;
-			    }
-			},
-		    error:function() {
-				showError('captcha','网络错误');
-				rtn = false;
-			}
-		});
-	}
-	if (!rtn) {
-		return false;
-	}
-	return true;
-} 
+    //获取用户输入的验证码
+    var captcha = $.trim($("#captcha").val());
+    var flag = false;
+
+    if ("" == captcha){
+        showError("captcha", "请输入验证码");
+    }else{
+        $.ajax({
+            url:"loan/checkCaptcha",
+            type:"post",
+            data:"captcha=" + captcha,
+            async:false,
+            dataType:"json",
+            success:function (jsonObject) {
+                if (jsonObject.errorMessage == "OK") {
+                    showSuccess("captcha");
+                    flag = true;
+                }else {
+                    showError("captcha", jsonObject.errorMessage);
+                    flag = false;
+                }
+            },
+            error:function () {
+                showError("captcha", "系统繁忙，请稍后重试...");
+                flag = false;
+            }
+        });
+    }
+
+    if (!flag){
+        return false;
+    }
+
+    return true;
+
+}
 
 //错误提示
 function showError(id,msg) {
@@ -135,14 +140,47 @@ function showSuccess(id) {
 }
 
 //实名认证提交
+function verifyRealName() {
+    var idCard = $.trim($("#idCard").val());
+    var realName = $.trim($("#realName").val());
+
+    if(userRealName() && idCardCheck() && idCardEequ() && checkCaptcha()){
+        $.ajax({
+            url:"loan/verifyRealName",
+            type:"post",
+            dataType:"json",
+            data:{"idCard":idCard,"realName":realName},
+            success:function (jsonObject) {
+                console.log(jsonObject.errorMessage);
+                if (jsonObject.errorMessage == "OK"){
+                    showSuccess("captcha");
+                    window.location.href = "index";
+                }else{
+                    showError("captcha",jsonObject.errorMessage);
+                }
+            },
+            error:function () {
+                showError("captcha", "系统繁忙，请稍后重试...");
+            }
+        });
+    }
+}
+
+
+
+
+//实名认证提交
 function realName () {
-	
-	var idCard = $.trim($("#idCard").val());
-	var replayIdCard = $.trim($("#replayIdCard").val());//确认身份证号
-	var realName = $.trim($("#realName").val());
-	var captcha = $.trim($("#captcha").val());
+
+    var idCard = $.trim($("#idCard").val());
+    var replayIdCard = $.trim($("#replayIdCard").val());//确认身份证号
+    var realName = $.trim($("#realName").val());
+    var captcha = $.trim($("#captcha").val());
 
 }
+
+
+
 //同意实名认证协议
 $(function() {
 	$("#agree").click(function(){

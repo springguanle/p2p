@@ -57,4 +57,7 @@ public interface UserMapper {
     * */
     User queryUserByPhone(String phone);
 
+    //用户登录
+    User queryUserByPhoneAndPassword(String phone,String password);
+
 }
