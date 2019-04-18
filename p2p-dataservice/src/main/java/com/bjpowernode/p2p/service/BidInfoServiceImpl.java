@@ -13,22 +13,33 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 投资信息
  * @author zhangguanle
  * @create 2019-01-16 16:26
  */
 @Service("bidInfoServiceImpl")
 public class BidInfoServiceImpl implements  BidInfoService {
 
+    /**
+     * 注入dao层
+     */
     @Autowired
     private BidInfoMapper bidInfoMapper;
 
     @Autowired
     private RedisTemplate<Object,Object> redisTemplate;
 
+    /**
+     *查询投资的总金额
+     * @return
+     */
     @Override
     public Double queryAllBidMoney() {
+        //1.修改key的序列化方式
         redisTemplate.setKeySerializer(new StringRedisSerializer());
+        //2.获取指定key的值
         BoundValueOperations<Object, Object> ops = redisTemplate.boundValueOps(Constants.ALL_BID_MONEY);
+
         Object allBidMoney = ops.get();
 
         if(allBidMoney==null){

@@ -1,4 +1,4 @@
-package com.bjpowernode.p2p.controller;
+package com.bjpowernode.p2p.pay.controller;
 
 import com.bjpowernode.p2p.model.loan.BidInfo;
 import com.bjpowernode.p2p.model.loan.LoanInfo;

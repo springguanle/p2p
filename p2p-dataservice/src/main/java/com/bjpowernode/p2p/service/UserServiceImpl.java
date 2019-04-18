@@ -23,30 +23,37 @@ import java.util.concurrent.TimeUnit;
 @Service("userServiceImpl")
 public class UserServiceImpl implements  UserService {
 
+    /**
+     * userMapper dao层
+     */
     @Autowired
     private UserMapper userMapper;
 
     @Autowired
     private FinanceAccountMapper financeAccountMapper;
 
+    /**
+     * redis缓存需要的redisTemplate
+     */
     @Autowired
     private RedisTemplate<Object,Object> redisTemplate;
 
-    /*
-    *   获取注册用户数量
-    * */
+    /**
+     * 获取用户注册数量
+     * @return
+     */
     @Override
     public Long queryAllUserCount() {
         //设置key的序列化方式
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         //获取指定操作某个key的对象
         BoundValueOperations<Object, Object> ops = redisTemplate.boundValueOps(Constants.ALL_USER_COUNT);
-        //从缓冲中查
+        //从缓冲中获取数据
         Object allUserCount = ops.get();
 
         if(allUserCount==null){
             allUserCount=userMapper.selectAllUserCount();
-            //设置失效时间
+            //放入到缓冲中并且设置失效时间
             ops.set(allUserCount,15, TimeUnit.SECONDS);
         }
         return (Long) allUserCount;

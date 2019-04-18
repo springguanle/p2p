@@ -1,4 +1,4 @@
-package com.bjpowernode.p2p.controller;
+package com.bjpowernode.p2p.pay.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;

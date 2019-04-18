@@ -9,6 +9,10 @@ import com.bjpowernode.p2p.model.vo.ResultObject;
  */
 public interface UserService {
 
+   /**
+    * 查询平台总注册用户数量
+    * @return
+    */
    Long queryAllUserCount();
 
    User queryUserByPhone(String phone);

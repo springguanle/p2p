@@ -51,6 +51,10 @@ public interface UserMapper {
      */
     int updateByPrimaryKey(User record);
 
+    /**
+     * 查询用户的注册数量
+     * @return
+     */
     Long selectAllUserCount();
     /*
     * 根据手机号码查询用户

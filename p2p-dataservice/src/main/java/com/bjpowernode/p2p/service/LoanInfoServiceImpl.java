@@ -28,17 +28,16 @@ public class LoanInfoServiceImpl implements LoanInfoService {
 
     @Override
     public Double queryHistoryAverageRate() {
-        //先从缓冲中取出
         //修改key的序列化
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         Double  historyAverageRate= (Double) redisTemplate.opsForValue().get(Constants.HISTORY_AVERAGE_RATE);
-
+        //先从缓冲中查
         if(historyAverageRate==null){
+
             historyAverageRate=loanInfoMapper.queryHistoryAverageRate();
             //放到缓存中
             redisTemplate.opsForValue().set(Constants.HISTORY_AVERAGE_RATE,historyAverageRate);
         }
-
         return historyAverageRate;
     }
     /*

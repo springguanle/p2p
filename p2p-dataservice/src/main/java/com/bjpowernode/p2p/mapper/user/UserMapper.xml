@@ -166,6 +166,7 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
+    <!--查询用户的注册数量-->
     <select id="selectAllUserCount" resultType="java.lang.Long">
         select count(1) from u_user
     </select>

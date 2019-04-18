@@ -55,6 +55,10 @@ public interface BidInfoMapper {
      */
     int updateByPrimaryKey(BidInfo record);
 
+    /**
+     * 查询总成交金额
+     * @return
+     */
     Double selectAllBidMoney();
 
     List<BidInfo> queryBidByLoanId(Integer id);

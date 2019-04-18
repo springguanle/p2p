@@ -1,4 +1,4 @@
-package com.bjpowernode.p2p.controller;
+package com.bjpowernode.p2p.pay.controller;
 
 import com.bjpowernode.p2p.constant.Constants;
 import com.bjpowernode.p2p.model.loan.LoanInfo;
@@ -33,13 +33,15 @@ public class IndexController {
 
     @RequestMapping("index")
     public String index(Model model){
-        //历史年化收益率
+        //1.历史年化收益率
         Double  historyAverageRate=loanInfoService.queryHistoryAverageRate();
         model.addAttribute(Constants.HISTORY_AVERAGE_RATE,historyAverageRate);
-       //查询平台总注册用户数量
+
+       //2.查询平台总注册用户数量
         Long allUserCount=userService.queryAllUserCount();
         model.addAttribute(Constants.ALL_USER_COUNT,allUserCount);
-        //获取平台累计投资金额
+
+        //3.获取平台累计投资金额
         Double allBidMoney=bidInfoService.queryAllBidMoney();
         model.addAttribute(Constants.ALL_BID_MONEY,allBidMoney);
 
